@@ -29,7 +29,7 @@ public class Player : MonoBehaviour, Danhable
    [SerializeField] private float distanciaDisparo = 500;
    [SerializeField] private float danhoDisparo = 20;
 
-    private AudioSource audioSource;
+   private AudioSource audioSource;
 
     bool cursorIsLocked = true;
     bool lockCursor = true;
@@ -65,37 +65,6 @@ public class Player : MonoBehaviour, Danhable
         UpdateCursorLock();
     }  
 
-    private void Recargar()
-    {
-        anim.SetTrigger("reload");
-    }
-
-    private void Disparar()
-    {
-        anim.SetTrigger("shoot");
-        audioSource.Play();
-        particles.Play();
-        //lo encapsulo dentro de un if porque me devuelve un bool
-        //mira a ver si impactas en algo...
-        if(Physics.Raycast(camara.position, camara.forward, out RaycastHit hitInfo, distanciaDisparo))//origen, dirección, distancia y qué hemos tocado (acepción 12)
-        {
-                //Saber si el gameObject con el que he colisionado tiene la interfaz buscada
-                //mira a ver si ese algo es dañable
-                if (hitInfo.transform.TryGetComponent (out Danhable sistemaDanho))
-                {
-                    if(!hitInfo.transform.CompareTag("Player"))
-                    {
-                        sistemaDanho.RecibirDahno(danhoDisparo);
-                        Debug.Log("Estás dando");
-                    }
-                     
-                   
-                }
-        }
-                
-            
-        
-    }
 
     //Solo cuando se actualice el input de movimiento
     private void Mover(Vector2 ctx)
@@ -114,12 +83,8 @@ public class Player : MonoBehaviour, Danhable
             Debug.Log("Saltando");
         }
         
-    }
-        
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-   
-
+    } 
+  
     private void AplicarMovimiento()
     {
         //Me muevo hacia el delante de la cámara según mi z y hacia el lado de la cámara según mi x (que puede ser + ó - según el imput)
@@ -169,9 +134,7 @@ public class Player : MonoBehaviour, Danhable
         Quaternion rotacionObjetivo = Quaternion.LookRotation(direccionMovimiento);
         transform.rotation = rotacionObjetivo;
     }
-
-    
-
+    //Combate
     public void RecibirDahno(float danho)
     {
         vidas -= danho;
@@ -180,6 +143,48 @@ public class Player : MonoBehaviour, Danhable
             Destroy(this.gameObject);
         }
     }
+    private void Recargar()
+    {
+        anim.SetTrigger("reload");
+    }
+    private void Disparar()
+    {
+        anim.SetTrigger("shoot");
+        audioSource.Play();
+        particles.Play();
+        //lo encapsulo dentro de un if porque me devuelve un bool
+        //mira a ver si impactas en algo...
+        if(Physics.Raycast(camara.position, camara.forward, out RaycastHit hitInfo, distanciaDisparo))//origen, dirección, distancia y qué hemos tocado (acepción 12)
+        {
+                //Saber si el gameObject con el que he colisionado tiene la interfaz buscada
+                //mira a ver si ese algo es dañable
+                if (hitInfo.transform.TryGetComponent (out Danhable sistemaDanho))
+                {
+                    if(!hitInfo.transform.CompareTag("Player"))
+                    {
+                        sistemaDanho.RecibirDahno(danhoDisparo);
+                        Debug.Log("Estás dando");
+                    }
+                     
+                   
+                }
+        }
+                
+            
+        
+    }
+    //Recoger
+
+    void OnTriggerEnter(Collider collider)
+    {
+        if (collider.gameObject.tag == "Ammo")
+        {
+            AudioSource audioAmmo = collider.GetComponent<AudioSource>();
+            audioAmmo.Play();
+            Destroy(collider.gameObject);
+        }
+    }
+
     //Ratón
     public void SetCursorLock(bool value)
     {
