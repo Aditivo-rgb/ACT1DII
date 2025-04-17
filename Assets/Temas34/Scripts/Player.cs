@@ -31,6 +31,9 @@ public class Player : MonoBehaviour, Danhable
 
     private AudioSource audioSource;
 
+    bool cursorIsLocked = true;
+    bool lockCursor = true;
+
 
     private void OnEnable() //el player se suscribe a la llamada que ha hecho el input manager y crea su evento
     {
@@ -56,6 +59,11 @@ public class Player : MonoBehaviour, Danhable
 
         ManejarVelocidadVertical();
     }
+
+    void FixedUpdate() 
+    { 
+        UpdateCursorLock();
+    }  
 
     private void Recargar()
     {
@@ -170,6 +178,47 @@ public class Player : MonoBehaviour, Danhable
         if (vidas <= 0)
         {
             Destroy(this.gameObject);
+        }
+    }
+    //Ratón
+    public void SetCursorLock(bool value)
+    {
+        lockCursor = value;
+        if (!lockCursor)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+    }
+
+    public void UpdateCursorLock()
+    {
+        if (lockCursor)
+        {
+            InternalLockUpdate();
+        }
+    }
+
+    public void InternalLockUpdate()
+    {
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            cursorIsLocked = false;
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            cursorIsLocked = true;
+        }
+
+        if(cursorIsLocked)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else if (!cursorIsLocked)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
     }
 
