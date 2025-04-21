@@ -47,7 +47,7 @@ public class Player : MonoBehaviour, Danhable
     //Inventario
    private int ammo = 0;
    private int maxAmmo = 50;
-   private int ammoClip = 0;
+   private int ammoClip = 10;
    private int ammoClipMax = 10;
    
 

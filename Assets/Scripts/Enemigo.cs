@@ -16,6 +16,7 @@ public class Enemigo : MonoBehaviour, Danhable
     [SerializeField] private Transform puntoAtaque;
     [SerializeField] private float radioAtaque;
     [SerializeField] private float danhoAtaque = 20;
+    [SerializeField] GameObject ragdoll;
 
     enum STATE { IDLE, WANDER, ATTACK, CHASE, DEAD}
     STATE state = STATE.IDLE;
@@ -32,13 +33,23 @@ public class Enemigo : MonoBehaviour, Danhable
     // Update is called once per frame
     void Update()
     {
-        //agent.SetDestination(target.transform.position);//encuentra el sitio donde está el player aunque se mueva
-        //Distancia de ataque
-        //if(agent.remainingDistance <= agent.stoppingDistance)
-        //{
-            //EnfocarObjetivo();
-            //LanzarAtaque();
-        //}
+        if (Input.GetKeyUp(KeyCode.P))
+        {
+            if (Random.Range(0, 10) < 5)
+            {
+                GameObject rd = Instantiate(ragdoll, this.transform.position, this.transform.rotation);
+                rd.transform.Find("Hips").GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * 10000);
+                Destroy(this.gameObject);
+            }
+            else 
+            {
+                TurnOffTriggers();
+                anim.SetBool("isDead", true);
+                state = STATE.DEAD;
+            }
+            
+            return;
+        }
         
         switch (state)
         {
