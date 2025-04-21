@@ -182,6 +182,7 @@ public class Player : MonoBehaviour, Danhable
         if (vidas <= 0)
         {
             audioHit.Play();
+            Debug.Log("Morí");
         }
     }
 

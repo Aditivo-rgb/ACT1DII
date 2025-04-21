@@ -18,6 +18,8 @@ public class Enemigo : MonoBehaviour, Danhable
         agent = GetComponent<NavMeshAgent>();
         target = FindObjectOfType<Player>();//le pido que cuando inicie localice cual es el objeto con player
         anim = GetComponent<Animator>();
+
+        anim.SetBool("isWalking", true);
     }
 
     // Update is called once per frame
@@ -31,12 +33,15 @@ public class Enemigo : MonoBehaviour, Danhable
             EnfocarObjetivo();
             LanzarAtaque();
         }
+
     }
 
     private void LanzarAtaque()
     {
         agent.isStopped = true;
-        anim.SetBool("attacking", true);
+        anim.SetBool("isWalking", false);
+        Debug.Log("Me paro");
+        anim.SetBool("isAttacking", true);
     }
 
     private void Atacar()
@@ -65,8 +70,10 @@ public class Enemigo : MonoBehaviour, Danhable
 
     private void FinDeAtaque()
     {
-            agent.isStopped = false;
-            anim.SetBool("attacking", false);
+        agent.isStopped = false;
+        anim.SetBool("isWalking", true);
+        Debug.Log("Me muevo otra vez");
+        anim.SetBool("isAttacking", false);
     }
 
     public void RecibirDahno(float danho)
