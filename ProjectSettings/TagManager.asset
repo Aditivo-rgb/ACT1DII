@@ -7,6 +7,7 @@ TagManager:
   - Ammo
   - Medkit
   - Zombie
+  - Ragdoll
   layers:
   - Default
   - TransparentFX

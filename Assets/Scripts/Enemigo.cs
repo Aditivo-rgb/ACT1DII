@@ -6,7 +6,6 @@ public class Enemigo : MonoBehaviour, Danhable
     private NavMeshAgent agent;
     private Player target;//mi target tiene el script player
     private Animator anim;
-    private float vidas = 100;
 
     [Header("Sistema de movimiento")]
     [SerializeField] private float walkingSpeed;
@@ -17,7 +16,7 @@ public class Enemigo : MonoBehaviour, Danhable
     [SerializeField] private float radioAtaque;
     [SerializeField] private float danhoAtaque = 20;
     [SerializeField] GameObject ragdoll;
-
+    [SerializeField] private float vidas = 20;
     enum STATE { IDLE, WANDER, ATTACK, CHASE, DEAD}
     STATE state = STATE.IDLE;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -26,31 +25,12 @@ public class Enemigo : MonoBehaviour, Danhable
         agent = GetComponent<NavMeshAgent>();
         target = FindObjectOfType<Player>();//le pido que cuando inicie localice cual es el objeto con player
         anim = GetComponent<Animator>();
-
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.P))
-        {
-            if (Random.Range(0, 10) < 5)
-            {
-                GameObject rd = Instantiate(ragdoll, this.transform.position, this.transform.rotation);
-                rd.transform.Find("Hips").GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * 10000);
-                Destroy(this.gameObject);
-            }
-            else 
-            {
-                TurnOffTriggers();
-                anim.SetBool("isDead", true);
-                state = STATE.DEAD;
-            }
-            
-            return;
-        }
-        
+        //state machine que va desde el idle hasta la muerte
         switch (state)
         {
             case STATE.IDLE:
@@ -95,11 +75,13 @@ public class Enemigo : MonoBehaviour, Danhable
                     
                 break;
             case STATE.DEAD:
+                Destroy(agent);
+                this.GetComponent<SinkZombies>().StartSink();
                 break;
         }
 
     }
-
+    //métodos del State machine
     private void Chase()
     {
         agent.SetDestination(target.transform.position);
@@ -109,7 +91,7 @@ public class Enemigo : MonoBehaviour, Danhable
         anim.SetBool("isRunning", true);
     }
 
-    //State machine
+    
     private void Wander()
     {
         if (!agent.hasPath)
@@ -193,7 +175,20 @@ public class Enemigo : MonoBehaviour, Danhable
         vidas -= danho;
         if (vidas <= 0)
         {
-            Destroy(this.gameObject);
+            if (Random.Range(0, 10) < 5)
+            {
+                GameObject rd = Instantiate(ragdoll, this.transform.position, this.transform.rotation);
+                rd.transform.Find("Hips").GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * 10000);
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                TurnOffTriggers();
+                anim.SetBool("isDead", true);
+                
+                state = STATE.DEAD;
+            }
+            
         }
     }
 

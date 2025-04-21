@@ -411,6 +411,7 @@ MonoBehaviour:
   radioAtaque: 0.5
   danhoAtaque: 20
   ragdoll: {fileID: 6781857801716014947, guid: 756f8c71db879984499a83a93919868b, type: 3}
+  vidas: 20
 --- !u!195 &2518861897079068860
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -456,7 +457,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
