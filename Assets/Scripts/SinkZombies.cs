@@ -2,10 +2,15 @@ using UnityEngine;
 
 public class SinkZombies : MonoBehaviour
 {
+    [SerializeField] float delay;
     float destroyHeight;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if(this.gameObject.CompareTag("Ragdoll"))
+        {
+            Invoke("StartSink", 5);
+        }
         
     }
 
@@ -20,7 +25,7 @@ public class SinkZombies : MonoBehaviour
             Destroy(c);
         }
         //llamo al método después de 3 segundos y hago que corra cada 0.1 segundos
-        InvokeRepeating("SinkIntoGround", 3f, 0.1f);
+        InvokeRepeating("SinkIntoGround", delay, 0.1f);
     }
 
     void SinkIntoGround()

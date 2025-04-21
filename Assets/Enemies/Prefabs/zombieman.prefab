@@ -1750,6 +1750,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8182110007186639411}
   - component: {fileID: 4858005932450810756}
+  - component: {fileID: 6022972205846856643}
   - component: {fileID: 4858005932450810757}
   - component: {fileID: 369291522308183815}
   - component: {fileID: 8005169657802240475}
@@ -1802,6 +1803,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6022972205846856643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5176861845160572960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b68434314cd0dd4e8022455925972f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delay: 10
 --- !u!114 &4858005932450810757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1832,6 +1846,7 @@ MonoBehaviour:
   radioAtaque: 0.3
   danhoAtaque: 20
   ragdoll: {fileID: 6812823803829558355, guid: e7ce972f21005524fa5a65f849f81cc8, type: 3}
+  vidas: 20
 --- !u!195 &8005169657802240475
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1903,7 +1918,7 @@ CapsuleCollider:
   m_Radius: 0.25
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 1.03, z: 0}
 --- !u!1 &5215620285009353330
 GameObject:
   m_ObjectHideFlags: 0
