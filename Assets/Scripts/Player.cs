@@ -1,5 +1,8 @@
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
+using TMPro;
 
 
 public class Player : MonoBehaviour, Danhable
@@ -11,6 +14,9 @@ public class Player : MonoBehaviour, Danhable
     [SerializeField] private InputManagerSO inputManager;
     [SerializeField] private Animator anim;
     [SerializeField] private ParticleSystem particles;
+    [SerializeField] private Slider barraVidas;
+    [SerializeField] private TextMeshProUGUI textoBalasTotal;
+    [SerializeField] private TextMeshProUGUI textoPistola;
 
     [Header("Detección suelo")]
     [SerializeField] private Transform pies;
@@ -40,15 +46,14 @@ public class Player : MonoBehaviour, Danhable
     [SerializeField] private AudioSource audioHit;
     private float timerPasos = 0f;
     private bool meMuevo = false;
-    
 
     private AudioSource audioSource;
-   
+
     //Inventario
-   private int ammo = 0;
-   private int maxAmmo = 50;
-   private int ammoClip = 10;
-   private int ammoClipMax = 10;
+    private int ammo = 50;
+    private int maxAmmo = 50;
+    private int ammoClip = 10;
+    private int ammoClipMax = 10;
    
 
     bool cursorIsLocked = true;
@@ -69,9 +74,12 @@ public class Player : MonoBehaviour, Danhable
         controller = GetComponent<CharacterController>();
         audioSource = GetComponent<AudioSource>();
 
-        // Poner vidas a tope
-
-        vidas = vidasMax; 
+        // Poner vidas a tope y UI
+        
+        vidas = vidasMax;
+        barraVidas.value = vidas;
+        textoBalasTotal.text = ammo + "";
+        textoPistola.text = ammoClip + ""; 
     }
 
     // Update is called once per frame
@@ -185,6 +193,7 @@ public class Player : MonoBehaviour, Danhable
     {
         //Resta daño a la vida del personaje, el valor final esté entre 0 y el máx
         vidas = (int)Mathf.Clamp(vidas - danho, 0, vidasMax);
+        barraVidas.value = vidas;
         if (vidas <= 0)
         {
             audioHit.Play();
@@ -201,14 +210,15 @@ public class Player : MonoBehaviour, Danhable
             anim.SetTrigger("shoot");
             //meto el disparo para que pase a la vez que el sonido
             ammoClip--;
-            Debug.Log("Ammo left" + ammo);
+            textoPistola.text = ammoClip + "";
+            
             audiodisparo.Play();
             particles.Play();
-        
+            textoBalasTotal.text = ammo + "";
 
             //lo encapsulo dentro de un if porque me devuelve un bool
             //mira a ver si impactas en algo...
-            if(Physics.Raycast(camara.position, camara.forward, out RaycastHit hitInfo, distanciaDisparo))//origen, dirección, distancia y qué hemos tocado (acepción 12)
+            if (Physics.Raycast(camara.position, camara.forward, out RaycastHit hitInfo, distanciaDisparo))//origen, dirección, distancia y qué hemos tocado (acepción 12)
             {
                     //Saber si el gameObject con el que he colisionado tiene la interfaz buscada
                     //mira a ver si ese algo es dañable
@@ -241,6 +251,8 @@ public class Player : MonoBehaviour, Danhable
         int ammoAvaliable = amountNeeded < ammo ? amountNeeded : ammo;//cuantas balas podemos usar para recargar
         ammo -= ammoAvaliable;//resto las balas que uso de la reserva
         ammoClip += ammoAvaliable;//sumo estas balas al cargador
+        textoBalasTotal.text = ammo + "";
+        textoPistola.text = ammoClip + "";
     }
     
     //Recoger
@@ -250,7 +262,8 @@ public class Player : MonoBehaviour, Danhable
        if (collider.gameObject.CompareTag("Ammo") && ammo < maxAmmo)
        {
             ammo += Mathf.Clamp(ammo + 10, 0, maxAmmo);
-            Debug.Log("Ammo" + ammo);
+            textoBalasTotal.text = ammo + "";
+            
             //Sonido
             AudioSource audioAmmo = collider.gameObject.GetComponent<AudioSource>();
             if (audioAmmo != null && audioAmmo.clip != null)
@@ -271,7 +284,8 @@ public class Player : MonoBehaviour, Danhable
         else if (collider.gameObject.CompareTag("Medkit") && vidas < vidasMax)
         {
             vidas = Mathf.Clamp(vidas + 20, 0, vidasMax);
-            Debug.Log("Medkit:" + vidas);
+            barraVidas.value = vidas;
+            
         //Sonido
             AudioSource audioMedkit = collider.gameObject.GetComponent<AudioSource>();
             if (audioMedkit != null && audioMedkit.clip != null)

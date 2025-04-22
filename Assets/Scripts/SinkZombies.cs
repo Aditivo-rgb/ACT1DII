@@ -9,7 +9,7 @@ public class SinkZombies : MonoBehaviour
     {
         if(this.gameObject.CompareTag("Ragdoll"))
         {
-            Invoke("StartSink", 5);
+            Invoke("StartSink", 3);
         }
         
     }

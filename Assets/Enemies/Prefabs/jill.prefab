@@ -4618,6 +4618,7 @@ GameObject:
   - component: {fileID: 4007161451360417992}
   - component: {fileID: 2024568820850483370}
   - component: {fileID: 8878457327736788464}
+  - component: {fileID: 8524850712522306299}
   m_Layer: 0
   m_Name: jill
   m_TagString: Zombie
@@ -4702,6 +4703,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0db73da9b963df74e9e5e0a98a782568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  medkit: {fileID: 7741545902358665241, guid: 7eb2d2e5ed5664c3da253b1245ff8187, type: 3}
+  ammo: {fileID: 5710403498752496786, guid: 2284fb370519d4434ad0ce0946f96aa7, type: 3}
   walkingSpeed: 0.8
   runningSpeed: 1.6
   puntoAtaque: {fileID: 188935600613238491}
@@ -4709,6 +4712,11 @@ MonoBehaviour:
   danhoAtaque: 20
   ragdoll: {fileID: 5301349752882356266, guid: da0cd7993e7f00b4fa05f590ac7136e5, type: 3}
   vidas: 20
+  audioSource: {fileID: 8524850712522306299}
+  splatClips:
+  - {fileID: 8300000, guid: 7f562fa456317214fa7ada054ed22ec1, type: 3}
+  - {fileID: 8300000, guid: caa4fc034d1508e4b9bb0d1b5fbf2599, type: 3}
+  - {fileID: 8300000, guid: 0af3e1d6bfab65543b29411218f470f6, type: 3}
 --- !u!195 &4007161451360417992
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -4781,3 +4789,100 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1.03, z: 0}
+--- !u!82 &8524850712522306299
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9153167617879130721}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
