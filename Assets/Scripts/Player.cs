@@ -1,8 +1,10 @@
-using UnityEditorInternal;
+
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 
 public class Player : MonoBehaviour, Danhable
@@ -54,11 +56,9 @@ public class Player : MonoBehaviour, Danhable
     private int maxAmmo = 50;
     private int ammoClip = 10;
     private int ammoClipMax = 10;
-   
 
     bool cursorIsLocked = true;
     bool lockCursor = true;
-
 
     private void OnEnable() //el player se suscribe a la llamada que ha hecho el input manager y crea su evento
     {
@@ -66,6 +66,14 @@ public class Player : MonoBehaviour, Danhable
         inputManager.OnMover += Mover;
         inputManager.OnDisparar += Disparar;
         inputManager.OnRecargar += Recargar;
+    }
+
+    private void OnDisable()
+    {
+        inputManager.OnSaltar -= Saltar;
+        inputManager.OnMover -= Mover;
+        inputManager.OnDisparar -= Disparar;
+        inputManager.OnRecargar -= Recargar;
     }
 
     void Start()
@@ -91,12 +99,10 @@ public class Player : MonoBehaviour, Danhable
 
         ManejarVelocidadVertical();
     }
-
-    void FixedUpdate() 
-    { 
+    void FixedUpdate()
+    {
         UpdateCursorLock();
-    }  
-
+    }
 
     //Solo cuando se actualice el input de movimiento
     private void Mover(Vector2 ctx)
@@ -200,6 +206,7 @@ public class Player : MonoBehaviour, Danhable
             Debug.Log("Morí");
             anim.SetBool("isDead", true);
             GameManager.Instance.SetGameOver();
+            
         }
     }
 
@@ -297,7 +304,6 @@ public class Player : MonoBehaviour, Danhable
         }
         
     }
-
     //Ratón
     public void SetCursorLock(bool value)
     {
@@ -323,12 +329,12 @@ public class Player : MonoBehaviour, Danhable
         {
             cursorIsLocked = false;
         }
-        else if (Input.GetMouseButtonUp(0))
+        else if (Input.GetMouseButtonUp(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             cursorIsLocked = true;
         }
 
-        if(cursorIsLocked)
+        if (cursorIsLocked)
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;

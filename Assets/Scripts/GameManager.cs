@@ -1,10 +1,14 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
     public bool gameOver = false;
+
+    
 
     void Awake()
     {
@@ -19,16 +23,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
     public void SetGameOver()
     {
         gameOver = true;
         // Aquí meto los menús
         Debug.Log("¡GAME OVER!");
         //Time.timeScale = 0f; // pausa el juego
+        SceneManager.LoadScene("GameOver");
     }
 
     public void SetGameWin()
     {
         Debug.Log("He ganado");
+        SceneManager.LoadScene("WinningScreen");
     }
+
+   
+ 
 }
