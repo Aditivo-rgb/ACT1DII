@@ -17,6 +17,9 @@ public class Enemigo : MonoBehaviour, Danhable
     [SerializeField] private float danhoAtaque = 20;
     [SerializeField] GameObject ragdoll;
     [SerializeField] private float vidas = 20;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip[] splatClips;
+
     enum STATE { IDLE, WANDER, ATTACK, CHASE, DEAD}
     STATE state = STATE.IDLE;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -90,8 +93,6 @@ public class Enemigo : MonoBehaviour, Danhable
         agent.speed = runningSpeed;
         anim.SetBool("isRunning", true);
     }
-
-    
     private void Wander()
     {
         if (!agent.hasPath)
@@ -139,9 +140,11 @@ public class Enemigo : MonoBehaviour, Danhable
         agent.isStopped = true;
 
         anim.SetBool("isAttacking", true);
+
     }
     private void Atacar()
     {
+        HacerSonarGolpes();
         //Lanzo el overlap desde un punto de ataque y  bajo un radio de ataque y recojo todos los collider tocados
         Collider[] coliderTocados = Physics.OverlapSphere(puntoAtaque.position, radioAtaque);
         foreach (Collider coll in  coliderTocados)
@@ -169,7 +172,6 @@ public class Enemigo : MonoBehaviour, Danhable
         Debug.Log("Me muevo otra vez");
         anim.SetBool("isAttacking", false);
     }
-
     public void RecibirDahno(float danho)
     {
         vidas -= danho;
@@ -191,7 +193,16 @@ public class Enemigo : MonoBehaviour, Danhable
             
         }
     }
+    void HacerSonarGolpes()
+    {
+        // No hacer nada si ya está sonando un sonido
+        if (audioSource.isPlaying) return;
 
+        // Elegir un sonido aleatorio
+        int n = Random.Range(0, splatClips.Length);
+        audioSource.clip = splatClips[n];
+        audioSource.Play();
+    }
     private void OnDrawGizmos()
     {
         Gizmos.DrawSphere(puntoAtaque.position, radioAtaque);
