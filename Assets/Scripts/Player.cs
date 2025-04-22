@@ -178,7 +178,7 @@ public class Player : MonoBehaviour, Danhable
     //Combate
     public void RecibirDahno(float danho)
     {
-        vidas -= danho;
+        vidas = (int)Mathf.Clamp(vidas - danho, 0, vidasMax);
         if (vidas <= 0)
         {
             audioHit.Play();
