@@ -115,9 +115,15 @@ public class Player : MonoBehaviour, Danhable
         direccionMovimiento = camara.forward * direccionInput.z + camara.right * direccionInput.x;
         direccionMovimiento.y = 0;//porque esto es la gravedad
         controller.Move(direccionMovimiento * velocidadMovimiento * Time.deltaTime);//hacia donde * cuán rápido * el tiempo que dure el movimiento
-        //solo suenan los pasos si hay movimiento
+                                                                                    //solo suenan los pasos si hay movimiento
+        AplicarTimerPasos();
+
+    }
+
+    private void AplicarTimerPasos()
+    {
         meMuevo = direccionInput.magnitude > 0.1f;
-        if (meMuevo) 
+        if (meMuevo)
         {
             timerPasos -= Time.deltaTime;//¿ya he pasado el tiempo desde el último paso?
             if (timerPasos <= 0f)//si ha pasado
@@ -130,7 +136,6 @@ public class Player : MonoBehaviour, Danhable
         {
             timerPasos = 0f;//si no me muevo reinicio
         }
-        
     }
 
     private void ManejarVelocidadVertical()
@@ -178,11 +183,14 @@ public class Player : MonoBehaviour, Danhable
     //Combate
     public void RecibirDahno(float danho)
     {
+        //Resta daño a la vida del personaje, el valor final esté entre 0 y el máx
         vidas = (int)Mathf.Clamp(vidas - danho, 0, vidasMax);
         if (vidas <= 0)
         {
             audioHit.Play();
             Debug.Log("Morí");
+            anim.SetBool("isDead", true);
+            GameManager.Instance.SetGameOver();
         }
     }
 
@@ -253,7 +261,12 @@ public class Player : MonoBehaviour, Danhable
             Destroy(collider.gameObject);
                
        }
-        
+        //Meta
+        if (collider.gameObject.CompareTag("Meta"))
+        {
+            GameManager.Instance.SetGameWin();
+        }
+
         //Botiquines
         else if (collider.gameObject.CompareTag("Medkit") && vidas < vidasMax)
         {

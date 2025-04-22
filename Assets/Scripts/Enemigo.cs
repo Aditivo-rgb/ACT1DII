@@ -7,6 +7,10 @@ public class Enemigo : MonoBehaviour, Danhable
     private Player target;//mi target tiene el script player
     private Animator anim;
 
+    [Header("Recogibles")]
+    [SerializeField] GameObject medkit;
+    [SerializeField] GameObject ammo;
+
     [Header("Sistema de movimiento")]
     [SerializeField] private float walkingSpeed;
     [SerializeField] private float runningSpeed;
@@ -19,6 +23,8 @@ public class Enemigo : MonoBehaviour, Danhable
     [SerializeField] private float vidas = 20;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip[] splatClips;
+
+
 
     enum STATE { IDLE, WANDER, ATTACK, CHASE, DEAD}
     STATE state = STATE.IDLE;
@@ -33,6 +39,7 @@ public class Enemigo : MonoBehaviour, Danhable
     // Update is called once per frame
     void Update()
     {
+        
         //state machine que va desde el idle hasta la muerte
         switch (state)
         {
@@ -177,6 +184,8 @@ public class Enemigo : MonoBehaviour, Danhable
         vidas -= danho;
         if (vidas <= 0)
         {
+            InstanciarRecogibles();
+
             if (Random.Range(0, 10) < 5)
             {
                 GameObject rd = Instantiate(ragdoll, this.transform.position, this.transform.rotation);
@@ -202,6 +211,24 @@ public class Enemigo : MonoBehaviour, Danhable
         int n = Random.Range(0, splatClips.Length);
         audioSource.clip = splatClips[n];
         audioSource.Play();
+    }
+
+    void InstanciarRecogibles()
+    {
+        if (Random.value < 0.5f)
+        {
+            GameObject objetoASpawnear = Random.value < 0.5f ? medkit : ammo;
+
+            // Obtener la posición actual del zombi
+            Vector3 posicionSpawn = transform.position;
+
+            // Aumentar la posición Y para elevar el objeto
+            posicionSpawn.y += 0.5f; // Ajusta este valor según lo que necesites
+
+            // Spawnea el objeto en la nueva posición elevada
+            Instantiate(objetoASpawnear, posicionSpawn, Quaternion.identity);
+        }
+    
     }
     private void OnDrawGizmos()
     {
