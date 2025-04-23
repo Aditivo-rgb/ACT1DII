@@ -135,6 +135,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pausar"",
+                    ""type"": ""Button"",
+                    ""id"": ""b01ca15d-40df-4a5f-a8bd-16ee5ac8aa09"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -291,6 +300,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Recargar"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2d96e953-008d-4369-854e-09d39b3662d6"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pausar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -304,6 +324,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Gameplay_MoverCamara = m_Gameplay.FindAction("MoverCamara", throwIfNotFound: true);
         m_Gameplay_Disparar = m_Gameplay.FindAction("Disparar", throwIfNotFound: true);
         m_Gameplay_Recargar = m_Gameplay.FindAction("Recargar", throwIfNotFound: true);
+        m_Gameplay_Pausar = m_Gameplay.FindAction("Pausar", throwIfNotFound: true);
     }
 
     ~@Controls()
@@ -389,6 +410,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_MoverCamara;
     private readonly InputAction m_Gameplay_Disparar;
     private readonly InputAction m_Gameplay_Recargar;
+    private readonly InputAction m_Gameplay_Pausar;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -420,6 +442,10 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/Recargar".
         /// </summary>
         public InputAction @Recargar => m_Wrapper.m_Gameplay_Recargar;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/Pausar".
+        /// </summary>
+        public InputAction @Pausar => m_Wrapper.m_Gameplay_Pausar;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -461,6 +487,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Recargar.started += instance.OnRecargar;
             @Recargar.performed += instance.OnRecargar;
             @Recargar.canceled += instance.OnRecargar;
+            @Pausar.started += instance.OnPausar;
+            @Pausar.performed += instance.OnPausar;
+            @Pausar.canceled += instance.OnPausar;
         }
 
         /// <summary>
@@ -487,6 +516,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Recargar.started -= instance.OnRecargar;
             @Recargar.performed -= instance.OnRecargar;
             @Recargar.canceled -= instance.OnRecargar;
+            @Pausar.started -= instance.OnPausar;
+            @Pausar.performed -= instance.OnPausar;
+            @Pausar.canceled -= instance.OnPausar;
         }
 
         /// <summary>
@@ -562,5 +594,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnRecargar(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Pausar" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPausar(InputAction.CallbackContext context);
     }
 }

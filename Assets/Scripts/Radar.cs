@@ -79,7 +79,7 @@ public class RadarObject
                     Se multiplica por -1 para invertir la dirección si es necesario. 
                     Luego se suma la distancia al objeto desde el jugador para ubicar el icono a una distancia proporcional en el radar.
                     */
-                    radPos.x = disToObject + Mathf.Cos(deltay + Mathf.Deg2Rad) * -1;
+                    radPos.x = disToObject * Mathf.Cos(deltay + Mathf.Deg2Rad) * -1;
                     /* 
                     Calcula la nueva posición en el eje Z del icono en el radar. 
                     Se utiliza el seno del mismo ángulo para obtener la dirección vertical en el radar. 

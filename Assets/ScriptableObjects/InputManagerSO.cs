@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,7 +10,8 @@ public class InputManagerSO : ScriptableObject
     public event Action OnSaltar;
     public event Action <Vector2> OnMover;
     public event Action OnDisparar;
-    public event Action OnRecargar; 
+    public event Action OnRecargar;
+    public event Action OnPausar;
     private void OnEnable()
     {
         //Esto es para suscribirse, lanzas la señal al resto de actores de unity de que estás apretando el botón que sea para que pasen co
@@ -21,9 +23,24 @@ public class InputManagerSO : ScriptableObject
         //lo anterior son botones, esto es el joystick
         misControles.Gameplay.Mover.performed += Mover;
         misControles.Gameplay.Mover.canceled += Mover;
-       
+        misControles.Gameplay.Pausar.started += Pausar;
+        
+
 
         Debug.Log("EstoyListo");
+    }
+
+    public void ActivarControles()
+    {
+        misControles.Gameplay.Enable();
+    }
+    public void DesactivarControles()
+    {
+        misControles.Gameplay.Disable();
+    }
+    private void Pausar(InputAction.CallbackContext obj)
+    {
+        OnPausar?.Invoke();
     }
 
     private void Recargar(InputAction.CallbackContext obj)

@@ -99,11 +99,7 @@ public class Player : MonoBehaviour, Danhable
 
         ManejarVelocidadVertical();
     }
-    void FixedUpdate()
-    {
-        UpdateCursorLock();
-    }
-
+   
     //Solo cuando se actualice el input de movimiento
     private void Mover(Vector2 ctx)
     {

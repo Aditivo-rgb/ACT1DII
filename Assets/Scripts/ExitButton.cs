@@ -5,11 +5,14 @@ public class ExitButton : MonoBehaviour
 {
     public void ExitScene()
     {
+        Time.timeScale = 1f; // asegurarse de que el tiempo no sigue en 0
         SceneManager.LoadScene("TitleGame");
+        Debug.Log("Saliendo del juego...");
     }
 
     public void PlayGame()
     {
+        Time.timeScale = 1f; // asegurarse de que el tiempo no sigue en 0
         SceneManager.LoadScene("Escena_Noche");
     }
 
